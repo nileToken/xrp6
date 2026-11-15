@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XRP Multi-Signature Transaction</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xrp-lib/1.1.0/xrp-lib.min.js"></script>
+</head>
+<body>
+    <h1>XRP Multi-Signature Transaction Handler</h1>
+    <script>
+        async function sendXRP(seed, destination, amount) {
+            const wallet = XRPWallet.fromSeed(seed);
+            // Generate the transaction
+            const transaction = {
+                TransactionType: 'Payment',
+                Account: wallet.getClassicAddress(),
+                Destination: destination,
+                Amount: amount,
+                LastLedgerSequence: (await getLastLedgerSequence())
+            };
+
+            // Sign the transaction
+            const signedTx = wallet.sign(transaction);
+
+            // Submit the transaction
+            await submitTransaction(signedTx);
+        }
+
+        async function getLastLedgerSequence() {
+            // Implement retrieval of last ledger sequence number
+            return 12345678; // Dummy value, replace with actual API call
+        }
+
+        async function submitTransaction(signedTx) {
+            // Implement submission logic to the XRP network
+            console.log('Submitting transaction:', signedTx);
+        }
+
+        // Example call
+        const seedPhrase = 'your 12-word seed phrase here';
+        const destinationAddress = 'destination XRP address';
+        const amountToSend = '1000000'; // amount in drops
+        sendXRP(seedPhrase, destinationAddress, amountToSend);
+    </script>
+</body>
+</html>
